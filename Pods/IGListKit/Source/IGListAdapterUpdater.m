@@ -84,6 +84,7 @@
 
     [delegate listAdapterUpdater:self willReloadDataWithCollectionView:collectionView];
     [collectionView reloadData];
+    [collectionView.collectionViewLayout invalidateLayout];
     [collectionView layoutIfNeeded];
     [delegate listAdapterUpdater:self didReloadDataWithCollectionView:collectionView];
 
@@ -234,8 +235,16 @@ void convertReloadToDeleteInsert(NSMutableIndexSet *reloads,
         const NSUInteger from = hasObjects ? [result oldIndexForIdentifier:diffIdentifier] : idx;
         const NSUInteger to = hasObjects ? [result newIndexForIdentifier:diffIdentifier] : idx;
         [reloads removeIndex:from];
-        [deletes addIndex:from];
-        [inserts addIndex:to];
+
+        // if a reload is queued outside the diff and the object was inserted or deleted it cannot be
+        if (from != NSNotFound && to != NSNotFound) {
+            [deletes addIndex:from];
+            [inserts addIndex:to];
+        } else {
+            IGAssert([result.deletes containsIndex:idx],
+                     @"Reloaded section %zi was not found in deletes with from: %zi, to: %zi, deletes: %@",
+                     idx, from, to, deletes);
+        }
     }];
 }
 

@@ -19,6 +19,7 @@
 @implementation IGListAdapter {
     NSMapTable<UICollectionViewCell *, IGListSectionController<IGListSectionType> *> *_cellSectionControllerMap;
     BOOL _isDequeuingCell;
+    BOOL _isSendingWorkingRangeDisplayUpdates;
 }
 
 - (void)dealloc {
@@ -35,7 +36,7 @@
 
 - (instancetype)initWithUpdater:(id <IGListUpdatingDelegate>)updatingDelegate
                  viewController:(UIViewController *)viewController
-               workingRangeSize:(NSUInteger)workingRangeSize {
+               workingRangeSize:(NSInteger)workingRangeSize {
     IGAssertMainThread();
     IGParameterAssert(updatingDelegate);
 
@@ -112,8 +113,9 @@
 }
 
 - (void)updateAfterPublicSettingsChange {
-    if (_collectionView != nil && _dataSource != nil) {
-        [self updateObjects:[[_dataSource objectsForListAdapter:self] copy]];
+    id<IGListAdapterDataSource> dataSource = _dataSource;
+    if (_collectionView != nil && dataSource != nil) {
+        [self updateObjects:[[dataSource objectsForListAdapter:self] copy] dataSource:dataSource];
     }
 }
 
@@ -140,6 +142,7 @@
 - (void)scrollToObject:(id)object
     supplementaryKinds:(NSArray<NSString *> *)supplementaryKinds
        scrollDirection:(UICollectionViewScrollDirection)scrollDirection
+        scrollPosition:(UICollectionViewScrollPosition)scrollPosition
               animated:(BOOL)animated {
     IGAssertMainThread();
     IGParameterAssert(object != nil);
@@ -165,33 +168,72 @@
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
     NSArray *attributes = [self layoutAttributesForIndexPath:indexPath supplementaryKinds:supplementaryKinds];
 
-    CGFloat offset = 0.0;
+    CGFloat offsetMin = 0.0;
+    CGFloat offsetMax = 0.0;
     for (UICollectionViewLayoutAttributes *attribute in attributes) {
         const CGRect frame = attribute.frame;
-        CGFloat origin;
+        CGFloat originMin;
+        CGFloat endMax;
         switch (scrollDirection) {
             case UICollectionViewScrollDirectionHorizontal:
-                origin = CGRectGetMinX(frame);
+                originMin = CGRectGetMinX(frame);
+                endMax = CGRectGetMaxX(frame);
                 break;
             case UICollectionViewScrollDirectionVertical:
-                origin = CGRectGetMinY(frame);
+                originMin = CGRectGetMinY(frame);
+                endMax = CGRectGetMaxY(frame);
                 break;
         }
 
         // find the minimum origin value of all the layout attributes
-        if (attribute == attributes.firstObject || origin < offset) {
-            offset = origin;
+        if (attribute == attributes.firstObject || originMin < offsetMin) {
+            offsetMin = originMin;
+        }
+        // find the maximum end value of all the layout attributes
+        if (attribute == attributes.firstObject || endMax > offsetMax) {
+            offsetMax = endMax;
         }
     }
-
+    
+    const CGFloat offsetMid = (offsetMin + offsetMax) / 2.0;
+    const CGFloat collectionViewWidth = collectionView.bounds.size.width;
+    const CGFloat collectionViewHeight = collectionView.bounds.size.height;
     const UIEdgeInsets contentInset = collectionView.contentInset;
     CGPoint contentOffset = collectionView.contentOffset;
     switch (scrollDirection) {
         case UICollectionViewScrollDirectionHorizontal:
-            contentOffset.x = offset - contentInset.left;
+            switch (scrollPosition) {
+                case UICollectionViewScrollPositionRight:
+                    contentOffset.x = offsetMax - collectionViewWidth - contentInset.left;
+                    break;
+                case UICollectionViewScrollPositionCenteredHorizontally:
+                    contentOffset.x = offsetMid - collectionViewWidth / 2.0 - contentInset.left;
+                    break;
+                case UICollectionViewScrollPositionLeft:
+                case UICollectionViewScrollPositionNone:
+                case UICollectionViewScrollPositionTop:
+                case UICollectionViewScrollPositionBottom:
+                case UICollectionViewScrollPositionCenteredVertically:
+                    contentOffset.x = offsetMin - contentInset.left;
+                    break;
+            }
             break;
         case UICollectionViewScrollDirectionVertical:
-            contentOffset.y = offset - contentInset.top;
+            switch (scrollPosition) {
+                case UICollectionViewScrollPositionBottom:
+                    contentOffset.y = offsetMax - collectionViewHeight - contentInset.top;
+                    break;
+                case UICollectionViewScrollPositionCenteredVertically:
+                    contentOffset.y = offsetMid - collectionViewHeight / 2.0 - contentInset.top;
+                    break;
+                case UICollectionViewScrollPositionTop:
+                case UICollectionViewScrollPositionNone:
+                case UICollectionViewScrollPositionLeft:
+                case UICollectionViewScrollPositionRight:
+                case UICollectionViewScrollPositionCenteredHorizontally:
+                    contentOffset.y = offsetMin - contentInset.top;
+                    break;
+            }
             break;
     }
 
@@ -226,7 +268,7 @@
                                          // there are any item deletes at the same
                                          weakSelf.previoussectionMap = [weakSelf.sectionMap copy];
 
-                                         [weakSelf updateObjects:toObjects];
+                                         [weakSelf updateObjects:toObjects dataSource:dataSource];
                                      } completion:^(BOOL finished) {
                                          // release the previous items
                                          weakSelf.previoussectionMap = nil;
@@ -255,7 +297,7 @@
     [self.updatingDelegate reloadDataWithCollectionView:collectionView reloadUpdateBlock:^{
         // purge all section controllers from the item map so that they are regenerated
         [weakSelf.sectionMap reset];
-        [weakSelf updateObjects:newItems];
+        [weakSelf updateObjects:newItems dataSource:dataSource];
     } completion:completion];
 }
 
@@ -270,8 +312,11 @@
 
     for (id object in objects) {
         // look up the item using the map's lookup function. might not be the same item
-        NSUInteger section = [map sectionForObject:object];
-        IGAssert(section != NSNotFound, @"Did not find a section for item %@", object);
+        const NSInteger section = [map sectionForObject:object];
+        const BOOL notFound = section == NSNotFound;
+        if (notFound) {
+            continue;
+        }
         [sections addIndex:section];
 
         // reverse lookup the item using the section. if the pointer has changed the trigger update events and swap items
@@ -290,7 +335,7 @@
 
 #pragma mark - List Items & Sections
 
-- (NSUInteger)sectionForSectionController:(IGListSectionController <IGListSectionType> *)sectionController {
+- (NSInteger)sectionForSectionController:(IGListSectionController <IGListSectionType> *)sectionController {
     IGAssertMainThread();
     IGParameterAssert(sectionController != nil);
 
@@ -304,13 +349,21 @@
     return [self.sectionMap sectionControllerForObject:object];
 }
 
-- (id)objectAtSection:(NSUInteger)section {
+- (id)objectForSectionController:(IGListSectionController <IGListSectionType> *)sectionController {
+    IGAssertMainThread();
+    IGParameterAssert(sectionController != nil);
+    
+    const NSUInteger section = [self.sectionMap sectionForSectionController:sectionController];
+    return [self.sectionMap objectForSection:section];
+}
+
+- (id)objectAtSection:(NSInteger)section {
     IGAssertMainThread();
 
     return [self.sectionMap objectForSection:section];
 }
 
-- (NSUInteger)sectionForObject:(id)item {
+- (NSInteger)sectionForObject:(id)item {
     IGAssertMainThread();
     IGParameterAssert(item != nil);
 
@@ -385,7 +438,9 @@
 
 // this method is what updates the "source of truth"
 // this should only be called just before the collection view is updated
-- (void)updateObjects:(NSArray *)objects {
+- (void)updateObjects:(NSArray *)objects dataSource:(id<IGListAdapterDataSource>)dataSource {
+    IGParameterAssert(dataSource != nil);
+
 #if DEBUG
     for (id object in objects) {
         IGAssert([object isEqual:object], @"Object instance %@ not equal to itself. This will break infra map tables.", object);
@@ -411,12 +466,12 @@
 
         // if not, query the data source for a new one
         if (sectionController == nil) {
-            sectionController = [self.dataSource listAdapter:self sectionControllerForObject:object];
+            sectionController = [dataSource listAdapter:self sectionControllerForObject:object];
         }
 
-        IGAssert(sectionController != nil, @"Data source <%@> cannot return a nil section controller.", self.dataSource);
+        IGAssert(sectionController != nil, @"Data source <%@> cannot return a nil section controller.", dataSource);
         if (sectionController == nil) {
-            break;
+            continue;
         }
 
         // in case the section controller was created outside of -listAdapter:sectionControllerForObject:
@@ -605,7 +660,10 @@
 
     id object = [self.sectionMap objectForSection:indexPath.section];
     [self.displayHandler willDisplayCell:cell forListAdapter:self sectionController:sectionController object:object indexPath:indexPath];
+
+    _isSendingWorkingRangeDisplayUpdates = YES;
     [self.workingRangeHandler willDisplayItemAtIndexPath:indexPath forListAdapter:self];
+    _isSendingWorkingRangeDisplayUpdates = NO;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -668,7 +726,7 @@
     return UIEdgeInsetsInsetRect(self.collectionView.bounds, self.collectionView.contentInset).size;
 }
 
-- (NSUInteger)indexForCell:(UICollectionViewCell *)cell sectionController:(nonnull IGListSectionController<IGListSectionType> *)sectionController {
+- (NSInteger)indexForCell:(UICollectionViewCell *)cell sectionController:(nonnull IGListSectionController<IGListSectionType> *)sectionController {
     IGAssertMainThread();
     IGParameterAssert(cell != nil);
     IGParameterAssert(sectionController != nil);
@@ -683,8 +741,8 @@
     IGAssertMainThread();
     IGParameterAssert(sectionController != nil);
 
-    // if this is accessed while a cell is being dequeued, just return nil
-    if (_isDequeuingCell) {
+    // if this is accessed while a cell is being dequeued or displaying working range elements, just return nil
+    if (_isDequeuingCell || _isSendingWorkingRangeDisplayUpdates) {
         return nil;
     }
 
@@ -838,8 +896,29 @@
         return;
     }
 
-    NSArray *indexPaths = [self indexPathsFromSectionController:sectionController indexes:indexes adjustForUpdateBlock:YES];
-    [self.updatingDelegate reloadItemsInCollectionView:collectionView indexPaths:indexPaths];
+    if (self.isInUpdateBlock) {
+        /**
+         UICollectionView is not designed to support -reloadSections: or -reloadItemsAtIndexPaths: during batch updates.
+         Internally it appears to convert these operations to a delete+insert. However the transformation is too simple
+         in that it doesn't account for the item's section being moved (naturally or explicitly) and can queue animation
+         collisions.
+         
+         If you have an object at section 2 with 4 items and attempt to reload item at index 1, you would create an
+         NSIndexPath at section: 2, item: 1. Within -performBatchUpdates:, UICollectionView converts this to a delete
+         and insert at the same NSIndexPath.
+         
+         If a section were inserted at position 2, the original section 2 has naturally shifted to section 3. However,
+         the insert NSIndexPath is section: 2, item: 1. Now the UICollectionView has a section animation at section 2,
+         as well as an item insert animation at section: 2, item: 1, and it will throw an exception.
+         
+         IGListAdapter tracks the before/after mapping of section controllers to make precise NSIndexPath conversions.
+         */
+        [self deleteInSectionController:sectionController atIndexes:indexes];
+        [self insertInSectionController:sectionController atIndexes:indexes];
+    } else {
+        NSArray *indexPaths = [self indexPathsFromSectionController:sectionController indexes:indexes adjustForUpdateBlock:YES];
+        [self.updatingDelegate reloadItemsInCollectionView:collectionView indexPaths:indexPaths];
+    }
 }
 
 - (void)insertInSectionController:(IGListSectionController<IGListSectionType> *)sectionController atIndexes:(NSIndexSet *)indexes {
@@ -902,6 +981,16 @@
     } completion:completion];
 }
 
+- (void)scrollToSectionController:(IGListSectionController<IGListSectionType> *)sectionController
+                          atIndex:(NSInteger)index
+                   scrollPosition:(UICollectionViewScrollPosition)scrollPosition
+                         animated:(BOOL)animated {
+    IGAssertMainThread();
+    IGParameterAssert(sectionController != nil);
+
+    NSIndexPath *indexPath = [self indexPathForSectionController:sectionController index:index];
+    [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:scrollPosition animated:animated];
+}
 
 #pragma mark - UICollectionViewDelegateFlowLayout
 

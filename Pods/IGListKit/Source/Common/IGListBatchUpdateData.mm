@@ -8,6 +8,7 @@
  */
 
 #import "IGListBatchUpdateData.h"
+#import <IGListKit/IGListCompatibility.h>
 
 #import <unordered_map>
 

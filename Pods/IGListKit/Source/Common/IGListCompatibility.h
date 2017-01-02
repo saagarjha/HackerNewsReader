@@ -7,16 +7,10 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-#import <Foundation/Foundation.h>
+#import <TargetConditionals.h>
 
-#import <IGListKit/IGListMoveIndex.h>
-
-NS_ASSUME_NONNULL_BEGIN
-
-@interface IGListMoveIndex ()
-
-- (instancetype)initWithFrom:(NSUInteger)from to:(NSUInteger)to NS_DESIGNATED_INITIALIZER;
-
-@end
-
-NS_ASSUME_NONNULL_END
+#if TARGET_OS_EMBEDDED || TARGET_OS_SIMULATOR
+#import <UIKit/UIKit.h>
+#else
+#import <Cocoa/Cocoa.h>
+#endif

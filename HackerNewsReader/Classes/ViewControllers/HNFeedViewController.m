@@ -12,7 +12,6 @@
 #import "HNPost.h"
 
 #import "HNPostCell.h"
-#import "HNWebViewController.h"
 #import "HNEmptyTableCell.h"
 #import "HNLoadingCell.h"
 #import "HNCommentViewController.h"

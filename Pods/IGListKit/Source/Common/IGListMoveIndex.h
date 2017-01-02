@@ -14,19 +14,26 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  An object representing a move between indexes.
  */
-@interface IGListMoveIndexPath : NSObject
+@interface IGListMoveIndex : NSObject
 
 /**
- An index path in the old collection.
+ An index in the old collection.
  */
-@property (nonatomic, strong, readonly) NSIndexPath *from;
+@property (nonatomic, assign, readonly) NSInteger from;
 
 /**
- An index path in the new collection.
+ An index in the new collection.
  */
-@property (nonatomic, strong, readonly) NSIndexPath *to;
+@property (nonatomic, assign, readonly) NSInteger to;
 
+/**
+ :nodoc:
+ */
 - (instancetype)init NS_UNAVAILABLE;
+
+/**
+ :nodoc:
+ */
 + (instancetype)new NS_UNAVAILABLE;
 
 @end

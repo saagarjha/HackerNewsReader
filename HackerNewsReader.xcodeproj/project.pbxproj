@@ -67,7 +67,6 @@
 		29EA87C11DD7AAAA00B6F84A /* HNSubmissionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29EA87751DD7AAAA00B6F84A /* HNSubmissionsViewController.m */; };
 		29EA87C21DD7AAAA00B6F84A /* HNTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29EA87771DD7AAAA00B6F84A /* HNTabBarController.m */; };
 		29EA87C31DD7AAAA00B6F84A /* HNTopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29EA87791DD7AAAA00B6F84A /* HNTopViewController.m */; };
-		29EA87C41DD7AAAA00B6F84A /* HNWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29EA877B1DD7AAAA00B6F84A /* HNWebViewController.m */; };
 		29EA87C51DD7AAAA00B6F84A /* HNCommentButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 29EA877E1DD7AAAA00B6F84A /* HNCommentButton.m */; };
 		29EA87C61DD7AAAA00B6F84A /* HNCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 29EA87801DD7AAAA00B6F84A /* HNCommentCell.m */; };
 		29EA87C71DD7AAAA00B6F84A /* HNCommentHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 29EA87821DD7AAAA00B6F84A /* HNCommentHeaderCell.m */; };
@@ -219,8 +218,6 @@
 		29EA87771DD7AAAA00B6F84A /* HNTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HNTabBarController.m; sourceTree = "<group>"; };
 		29EA87781DD7AAAA00B6F84A /* HNTopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HNTopViewController.h; sourceTree = "<group>"; };
 		29EA87791DD7AAAA00B6F84A /* HNTopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HNTopViewController.m; sourceTree = "<group>"; };
-		29EA877A1DD7AAAA00B6F84A /* HNWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HNWebViewController.h; sourceTree = "<group>"; };
-		29EA877B1DD7AAAA00B6F84A /* HNWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HNWebViewController.m; sourceTree = "<group>"; };
 		29EA877D1DD7AAAA00B6F84A /* HNCommentButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HNCommentButton.h; sourceTree = "<group>"; };
 		29EA877E1DD7AAAA00B6F84A /* HNCommentButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HNCommentButton.m; sourceTree = "<group>"; };
 		29EA877F1DD7AAAA00B6F84A /* HNCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HNCommentCell.h; sourceTree = "<group>"; };
@@ -281,6 +278,7 @@
 				80871F2CF9C62E91D554FB34 /* Frameworks */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		2990B2E11AD1FC600053DB80 /* Products */ = {
 			isa = PBXGroup;
@@ -484,8 +482,6 @@
 				29EA87771DD7AAAA00B6F84A /* HNTabBarController.m */,
 				29EA87781DD7AAAA00B6F84A /* HNTopViewController.h */,
 				29EA87791DD7AAAA00B6F84A /* HNTopViewController.m */,
-				29EA877A1DD7AAAA00B6F84A /* HNWebViewController.h */,
-				29EA877B1DD7AAAA00B6F84A /* HNWebViewController.m */,
 			);
 			name = ViewControllers;
 			path = Classes/ViewControllers;
@@ -743,7 +739,6 @@
 				29EA87901DD7AAAA00B6F84A /* UIFont+HackerNews.m in Sources */,
 				29EA87A11DD7AAAA00B6F84A /* HNCommentParser.m in Sources */,
 				29EA878F1DD7AAAA00B6F84A /* UIColor+HackerNews.m in Sources */,
-				29EA87C41DD7AAAA00B6F84A /* HNWebViewController.m in Sources */,
 				29EA87A41DD7AAAA00B6F84A /* HNFeedDataSource.m in Sources */,
 				29EA87AC1DD7AAAA00B6F84A /* HNUserParser.m in Sources */,
 				29EA87BD1DD7AAAA00B6F84A /* HNPostControllerHandling.m in Sources */,

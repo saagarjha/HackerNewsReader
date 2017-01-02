@@ -19,34 +19,6 @@ FOUNDATION_EXPORT double IGListKitVersionNumber;
  */
 FOUNDATION_EXPORT const unsigned char IGListKitVersionString[];
 
-#if TARGET_OS_EMBEDDED || TARGET_OS_SIMULATOR
-
-// iOS and tvOS only:
-
-#import <IGListKit/IGListAdapter.h>
-#import <IGListKit/IGListAdapterDataSource.h>
-#import <IGListKit/IGListAdapterDelegate.h>
-#import <IGListKit/IGListAdapterUpdater.h>
-#import <IGListKit/IGListAdapterUpdaterDelegate.h>
-#import <IGListKit/IGListCollectionContext.h>
-#import <IGListKit/IGListCollectionView.h>
-#import <IGListKit/IGListDisplayDelegate.h>
-#import <IGListKit/IGListExperiments.h>
-#import <IGListKit/IGListGridCollectionViewLayout.h>
-#import <IGListKit/IGListSectionController.h>
-#import <IGListKit/IGListSectionType.h>
-#import <IGListKit/IGListReloadDataUpdater.h>
-#import <IGListKit/IGListScrollDelegate.h>
-#import <IGListKit/IGListSingleSectionController.h>
-#import <IGListKit/IGListStackedSectionController.h>
-#import <IGListKit/IGListSupplementaryViewSource.h>
-#import <IGListKit/IGListUpdatingDelegate.h>
-#import <IGListKit/IGListWorkingRangeDelegate.h>
-
-#endif
-
-// Shared (iOS, tvOS, macOS compatible):
-
 #import <IGListKit/IGListAssert.h>
 #import <IGListKit/IGListBatchUpdateData.h>
 #import <IGListKit/IGListDiff.h>

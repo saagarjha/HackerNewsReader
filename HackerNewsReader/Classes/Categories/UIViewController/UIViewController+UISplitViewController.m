@@ -6,7 +6,10 @@
 //  Copyright (c) 2015 Ryan Nystrom. All rights reserved.
 //
 
+#import <SafariServices/SafariServices.h>
+
 #import "UIViewController+UISplitViewController.h"
+#import "UIColor+HackerNews.h"
 
 #import "HNNavigationController.h"
 
@@ -20,29 +23,35 @@
 
 - (void)hn_showDetailViewControllerWithFallback:(UIViewController *)controller {
     NSAssert(controller != nil, @"Cannot show detail for a nil controller");
-    if ([self respondsToSelector:@selector(showDetailViewController:sender:)]) {
-        if (!self.splitViewController.isCollapsed) {
-            controller = [[HNNavigationController alloc] initWithRootViewController:controller];
-        }
-        [self showDetailViewController:controller sender:self];
-    } else if (self.splitViewController) {
-        NSArray *controllers = self.splitViewController.viewControllers;
-        UINavigationController *navigation = nil;
-        if (controllers.count > 1) {
-            navigation = [controllers objectAtIndex:1];
-        }
-
-        NSAssert(navigation != nil, @"Detail controller has not been created for split view controller");
-        NSAssert([navigation isKindOfClass:[UINavigationController class]], @"Second controller is not of type UINavigationController");
-        navigation.viewControllers = @[controller];
-
-        if (!navigation || !controllers.firstObject) {
-            return;
-        }
-
-        self.splitViewController.viewControllers = @[controllers.firstObject, navigation];
+    if ([controller isKindOfClass:[SFSafariViewController class]]) {
+        [self.navigationController presentViewController:controller animated:YES completion:nil];
+        controller.navigationController.navigationBarHidden = YES;
+        ((SFSafariViewController*)controller).preferredBarTintColor = [UIColor hn_brandColor];
     } else {
-        [self.navigationController pushViewController:controller animated:YES];
+        if ([self respondsToSelector:@selector(showDetailViewController:sender:)]) {
+            if (!self.splitViewController.isCollapsed) {
+                controller = [[HNNavigationController alloc] initWithRootViewController:controller];
+            }
+            [self showDetailViewController:controller sender:self];
+        } else if (self.splitViewController) {
+            NSArray *controllers = self.splitViewController.viewControllers;
+            UINavigationController *navigation = nil;
+            if (controllers.count > 1) {
+                navigation = [controllers objectAtIndex:1];
+            }
+            
+            NSAssert(navigation != nil, @"Detail controller has not been created for split view controller");
+            NSAssert([navigation isKindOfClass:[UINavigationController class]], @"Second controller is not of type UINavigationController");
+            navigation.viewControllers = @[controller];
+            
+            if (!navigation || !controllers.firstObject) {
+                return;
+            }
+            
+            self.splitViewController.viewControllers = @[controllers.firstObject, navigation];
+        } else {
+            [self.navigationController pushViewController:controller animated:YES];
+        }
     }
 }
 

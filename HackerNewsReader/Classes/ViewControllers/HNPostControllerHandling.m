@@ -6,11 +6,12 @@
 //  Copyright (c) 2015 Ryan Nystrom. All rights reserved.
 //
 
+#import <SafariServices/SafariServices.h>
+
 #import "HNPostControllerHandling.h"
 
 #import "HNPost.h"
 
-#import "HNWebViewController.h"
 #import "HNCommentViewController.h"
 #import "NSURL+HackerNews.h"
 
@@ -20,8 +21,9 @@ UIViewController *viewControllerForPost(HNPost *post) {
         NSUInteger postID = [[post.URL hn_valueForQueryParameter:@"id"] integerValue];
         controller = [[HNCommentViewController alloc] initWithPostID:postID];
     } else {
-        controller = [[HNWebViewController alloc] initWithPost:post];
+        controller = [[SFSafariViewController alloc] initWithURL:post.URL];
     }
+    controller.hidesBottomBarWhenPushed = YES;
     return controller;
 }
 
@@ -31,7 +33,8 @@ UIViewController *viewControllerForURL(NSURL *url) {
         NSUInteger postID = [[url hn_valueForQueryParameter:@"id"] integerValue];
         controller = [[HNCommentViewController alloc] initWithPostID:postID];
     } else {
-        controller = [[HNWebViewController alloc] initWithURL:url];
+        controller = [[SFSafariViewController alloc] initWithURL:url];
     }
+    controller.hidesBottomBarWhenPushed = YES;
     return controller;
 }

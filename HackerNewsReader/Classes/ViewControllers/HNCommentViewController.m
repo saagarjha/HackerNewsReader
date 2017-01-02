@@ -14,12 +14,12 @@
 #import "HNPage.h"
 
 #import <MessageUI/MessageUI.h>
+#import <SafariServices/SafariServices.h>
 
 #import "HNAttributedCommentComponents.h"
 #import "HNCommentCell.h"
 #import "HNComment+AttributedStrings.h"
 #import "HNCommentHeaderCell.h"
-#import "HNWebViewController.h"
 #import "HNTextStorage.h"
 #import "HNPageHeaderView.h"
 #import "NSURL+HackerNews.h"
@@ -294,7 +294,8 @@ MFMailComposeViewControllerDelegate
         }
     } else {
         UIViewController *controller = viewControllerForURL(url);
-        [self.navigationController pushViewController:controller animated:YES];
+        [self hn_showDetailViewControllerWithFallback:controller];
+        //[self.navigationController pushViewController:controller animated:YES];
     }
 }
 
@@ -467,8 +468,8 @@ MFMailComposeViewControllerDelegate
 
 - (void)pageHeaderDidTapTitle:(HNPageHeaderView *)pageHeader {
     if (![self.page.post.URL isHackerNewsURL]) {
-        HNWebViewController *controller = [[HNWebViewController alloc] initWithPost:self.page.post];
-        [self.navigationController pushViewController:controller animated:YES];
+        SFSafariViewController *controller = [[SFSafariViewController alloc] initWithURL:self.page.post.URL];
+        [self hn_showDetailViewControllerWithFallback:controller];
     }
 }
 

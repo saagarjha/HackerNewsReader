@@ -9,6 +9,7 @@
 #import <SafariServices/SafariServices.h>
 
 #import "HNPostControllerHandling.h"
+#import "UIColor+HackerNews.h"
 
 #import "HNPost.h"
 
@@ -22,6 +23,7 @@ UIViewController *viewControllerForPost(HNPost *post) {
         controller = [[HNCommentViewController alloc] initWithPostID:postID];
     } else {
         controller = [[SFSafariViewController alloc] initWithURL:post.URL];
+        ((SFSafariViewController*)controller).preferredBarTintColor = [UIColor hn_brandColor];
     }
     controller.hidesBottomBarWhenPushed = YES;
     return controller;
@@ -34,6 +36,7 @@ UIViewController *viewControllerForURL(NSURL *url) {
         controller = [[HNCommentViewController alloc] initWithPostID:postID];
     } else {
         controller = [[SFSafariViewController alloc] initWithURL:url];
+        ((SFSafariViewController*)controller).preferredBarTintColor = [UIColor hn_brandColor];
     }
     controller.hidesBottomBarWhenPushed = YES;
     return controller;

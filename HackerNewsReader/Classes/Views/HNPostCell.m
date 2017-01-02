@@ -76,6 +76,10 @@ static CGFloat const kHNCommentButtonWidth = 44.0;
     }
 }
 
+- (BOOL)commentButtonContainsLocation:(CGPoint)location {
+    return CGRectContainsPoint(self.commentButton.frame, location);
+}
+
 - (void)setTitle:(NSString *)title {
     self.titleLabel.text = title;
     [self configureAccessibility];

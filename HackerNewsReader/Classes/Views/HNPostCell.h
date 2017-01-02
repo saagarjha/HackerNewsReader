@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setCommentCount:(NSUInteger)commentCount;
 - (void)setCommentButtonHidden:(BOOL)commentButtonHidden;
 - (void)setCommentCountHidden:(BOOL)commentCountHidden;
+- (BOOL)commentButtonContainsLocation:(CGPoint)location;
 
 @end
 

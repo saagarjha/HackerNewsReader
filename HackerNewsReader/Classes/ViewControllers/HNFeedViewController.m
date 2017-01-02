@@ -89,6 +89,10 @@ static NSUInteger const kItemsPerPage = 30;
     self.refreshControl = refresh;
 
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    
+    if (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable) {
+        [self registerForPreviewingWithDelegate:self sourceView:self.tableView];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -282,6 +286,32 @@ static NSUInteger const kItemsPerPage = 30;
     }
 }
 
+#pragma mark - UIViewControllerPreviewingDelegate
+
+- (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext viewControllerForLocation:(CGPoint)location {
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+    HNPostCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    
+    previewingContext.sourceRect = cell.frame;
+    
+    if (indexPath.section != HNFeedViewControllerSectionData) {
+        return nil;
+    }
+    
+    HNPost *post = self.feedDataSource.posts[indexPath.row];
+    [self.readPostStore readPK:post.pk];
+    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    
+    if ([cell commentButtonContainsLocation:[self.tableView convertPoint:location toView:cell]]) {
+        return [[HNCommentViewController alloc] initWithPostID:post.pk];
+    } else {
+        return viewControllerForPost(post);
+    }
+}
+
+- (void)previewingContext:(id<UIViewControllerPreviewing>)previewingContext commitViewController:(UIViewController *)viewControllerToCommit {
+    [self hn_showDetailViewControllerWithFallback:viewControllerToCommit];
+}
 
 #pragma mark - Notifications
 

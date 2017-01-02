@@ -295,7 +295,6 @@ MFMailComposeViewControllerDelegate
     } else {
         UIViewController *controller = viewControllerForURL(url);
         [self hn_showDetailViewControllerWithFallback:controller];
-        //[self.navigationController pushViewController:controller animated:YES];
     }
 }
 

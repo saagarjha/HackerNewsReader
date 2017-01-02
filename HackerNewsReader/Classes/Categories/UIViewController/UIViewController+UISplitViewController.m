@@ -9,7 +9,6 @@
 #import <SafariServices/SafariServices.h>
 
 #import "UIViewController+UISplitViewController.h"
-#import "UIColor+HackerNews.h"
 
 #import "HNNavigationController.h"
 
@@ -26,7 +25,6 @@
     if ([controller isKindOfClass:[SFSafariViewController class]]) {
         [self.navigationController presentViewController:controller animated:YES completion:nil];
         controller.navigationController.navigationBarHidden = YES;
-        ((SFSafariViewController*)controller).preferredBarTintColor = [UIColor hn_brandColor];
     } else {
         if ([self respondsToSelector:@selector(showDetailViewController:sender:)]) {
             if (!self.splitViewController.isCollapsed) {

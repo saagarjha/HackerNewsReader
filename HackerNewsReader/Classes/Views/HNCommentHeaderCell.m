@@ -34,7 +34,7 @@ static CGFloat const kHNCommentHeaderPadding = 15.0;
         _collapsedLabel = [[UILabel alloc] init];
         _collapsedLabel.textColor = [UIColor hn_subtitleTextColor];
         _collapsedLabel.font = [UIFont hn_subtitleFont];
-        _collapsedLabel.text = @"\u2013";
+        _collapsedLabel.text = @"\u2212";
         [self.contentView addSubview:_collapsedLabel];
 
         _borderLayer = [CALayer layer];
@@ -73,7 +73,7 @@ static CGFloat const kHNCommentHeaderPadding = 15.0;
 
 - (void)setCollapsed:(BOOL)collapsed {
     _collapsed = collapsed;
-    self.collapsedLabel.text = collapsed ? @"+" : @"\u2013";
+    self.collapsedLabel.text = collapsed ? @"+" : @"\u2212";
 }
 
 

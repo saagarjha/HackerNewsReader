@@ -446,6 +446,8 @@ MFMailComposeViewControllerDelegate
     NSString *urlString = attributes[HNCommentLinkAttributeName];
     if (urlString) {
         [self didTapURL:[NSURL URLWithString:urlString]];
+    } else {
+        [self tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:HNCommentRowUser inSection:indexPath.section]];
     }
 }
 

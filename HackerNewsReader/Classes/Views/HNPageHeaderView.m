@@ -89,17 +89,22 @@ static CGFloat const kHNPageHeaderLabelSpacing = 5.0;
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-
+    
+    UIEdgeInsets safeInsets = kHNPageHeaderInsets;
+    if (@available(iOS 11.0, *)) {
+        safeInsets.left = fmax(safeInsets.left, self.safeAreaInsets.left);
+        safeInsets.right = fmax(safeInsets.right, self.safeAreaInsets.right);
+    }
     CGRect inset = UIEdgeInsetsInsetRect(self.bounds, kHNPageHeaderInsets);
     CGSize titleSize = [self.titleLabel sizeThatFits:inset.size];
-    self.titleLabel.frame = CGRectMake(kHNPageHeaderInsets.left, kHNPageHeaderInsets.top, titleSize.width, titleSize.height);
+    self.titleLabel.frame = CGRectMake(safeInsets.left, safeInsets.top, titleSize.width, titleSize.height);
 
     CGSize subtitleSize = [self.subtitleLabel sizeThatFits:inset.size];
-    self.subtitleLabel.frame = CGRectMake(kHNPageHeaderInsets.left, CGRectGetMaxY(self.titleLabel.frame) + kHNPageHeaderLabelSpacing, subtitleSize.width, subtitleSize.height);
+    self.subtitleLabel.frame = CGRectMake(safeInsets.left, CGRectGetMaxY(self.titleLabel.frame) + kHNPageHeaderLabelSpacing, subtitleSize.width, subtitleSize.height);
 
     if (self.textLabel.text) {
         CGSize textSize = [self.textLabel sizeThatFits:inset.size];
-        self.textLabel.frame = CGRectMake(kHNPageHeaderInsets.left, CGRectGetMaxY(self.subtitleLabel.frame) + kHNPageHeaderLabelSpacing, textSize.width, textSize.height);
+        self.textLabel.frame = CGRectMake(safeInsets.left, CGRectGetMaxY(self.subtitleLabel.frame) + kHNPageHeaderLabelSpacing, textSize.width, textSize.height);
     }
 }
 

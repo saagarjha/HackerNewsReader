@@ -12,8 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class HNPost;
 
-extern UIViewController *viewControllerForPost(HNPost *post);
+extern __kindof UIViewController *viewControllerForPost(HNPost *post);
 
-extern UIViewController *viewControllerForURL(NSURL *url);
+extern __kindof UIViewController *viewControllerForURL(NSURL *url);
 
 NS_ASSUME_NONNULL_END

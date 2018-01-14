@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithTableView:(UITableView *)tableView readPostStore:(nullable HNReadPostStore *)readPostStore;
 
 @property (nonatomic, copy) NSArray *posts;
+@property (nonatomic, copy) NSArray *filteredPosts;
+@property (nonatomic, copy) NSString *filter;
 
 - (HNPostCell *)cellForPostAtIndexPath:(NSIndexPath *)indexPath;
 

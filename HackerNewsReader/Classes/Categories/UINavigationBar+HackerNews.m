@@ -15,11 +15,17 @@
 @implementation UINavigationBar (HackerNews)
 
 + (void)hn_enableAppearance {
-    id appearance = [self appearanceWhenContainedInInstancesOfClasses:@[HNNavigationController.class]];
+    UINavigationBar *appearance = [self appearanceWhenContainedInInstancesOfClasses:@[HNNavigationController.class]];
     [appearance setTitleTextAttributes:@{
                                          NSForegroundColorAttributeName: [UIColor hn_navigationTextColor],
                                          NSFontAttributeName: [UIFont hn_navigationFont]
                                          }];
+    if (@available(iOS 11.0, *)) {
+        [appearance setLargeTitleTextAttributes:@{
+                                                  NSForegroundColorAttributeName: [UIColor hn_navigationTextColor],
+                                                  NSFontAttributeName: [UIFont hn_largeNavigationFont]
+                                                  }];
+    }
     [appearance setTintColor:[UIColor hn_navigationTintColor]];
     [appearance setBarTintColor:[UIColor hn_brandColor]];
 }

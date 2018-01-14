@@ -23,7 +23,6 @@
 #import "HNPostControllerHandling.h"
 #import "HNReadPostStore.h"
 #import "HNFeedDataSource.h"
-#import "HNSearchPostsController.h"
 #import "HNLoginViewController.h"
 #import "HNLogin.h"
 
@@ -42,7 +41,7 @@ static NSUInteger const kItemsPerPage = 30;
 @property (nonatomic, strong) HNTableStatus *tableStatus;
 @property (nonatomic, strong) HNFeedDataSource *feedDataSource;
 @property (nonatomic, copy) HNFeed *feed;
-@property (nonatomic, strong) HNSearchPostsController *searchPostsController;
+@property (nonatomic, strong) UISearchController *searchController;
 
 @property (nonatomic, strong) HNLoginViewController *loginViewController;
 
@@ -64,15 +63,17 @@ static NSUInteger const kItemsPerPage = 30;
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.edgesForExtendedLayout = UIRectEdgeNone;
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    self.extendedLayoutIncludesOpaqueBars = YES;
-
     self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModeAllVisible;
 
-    self.searchPostsController = [[HNSearchPostsController alloc] initWithContentsController:self readPostStore:self.readPostStore];
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.dimsBackgroundDuringPresentation = NO;
     self.definesPresentationContext = YES;
-    self.tableView.tableHeaderView = [self.searchPostsController searchBar];
+    if (@available(iOS 11, *)) {
+        self.navigationItem.searchController = self.searchController;
+    } else {
+        self.tableView.tableHeaderView = [self.searchController searchBar];
+    }
 
     [self fetchWithParams:nil refresh:YES];
 
@@ -86,6 +87,9 @@ static NSUInteger const kItemsPerPage = 30;
 
     UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
     [refresh addTarget:self action:@selector(onRefresh:) forControlEvents:UIControlEventValueChanged];
+    if (@available(iOS 11.0, *)) {
+        refresh.tintColor = [UIColor whiteColor];
+    }
     self.refreshControl = refresh;
 
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
@@ -109,11 +113,6 @@ static NSUInteger const kItemsPerPage = 30;
         [self hn_insertActivityIndicator];
     }
 }
-
-- (UISearchDisplayController *)searchDisplayController {
-    return self.searchPostsController;
-}
-
 
 #pragma mark - Actions
 
@@ -173,7 +172,6 @@ static NSUInteger const kItemsPerPage = 30;
 - (void)setFeed:(HNFeed *)feed {
     _feed = [feed copy];
     self.feedDataSource.posts = feed.items;
-    self.searchPostsController.posts = feed.items;
 }
 
 
@@ -182,12 +180,15 @@ static NSUInteger const kItemsPerPage = 30;
 - (void)postCellDidTapCommentButton:(HNPostCell *)postCell {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:postCell];
     if (indexPath) {
-        HNPost *post = self.feedDataSource.posts[indexPath.row];
+        HNPost *post = self.feedDataSource.filteredPosts[indexPath.row];
         
         [self.readPostStore readPK:post.pk];
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         
         HNCommentViewController *commentController = [[HNCommentViewController alloc] initWithPostID:post.pk];
+        if (@available(iOS 11.0, *)) {
+            commentController.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeNever;
+        }
         [self hn_showDetailViewControllerWithFallback:commentController];
     }
 }
@@ -201,7 +202,7 @@ static NSUInteger const kItemsPerPage = 30;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == HNFeedViewControllerSectionData) {
-        return self.feedDataSource.posts.count;
+        return self.feedDataSource.filteredPosts.count;
     } else {
         return [self.tableStatus cellCountForSection:section];
     }
@@ -311,6 +312,13 @@ static NSUInteger const kItemsPerPage = 30;
 
 - (void)previewingContext:(id<UIViewControllerPreviewing>)previewingContext commitViewController:(UIViewController *)viewControllerToCommit {
     [self hn_showDetailViewControllerWithFallback:viewControllerToCommit];
+}
+
+#pragma mark - UISearchResultsUpdating
+
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController {
+    self.feedDataSource.filter = searchController.searchBar.text;
+    [self.tableView reloadData];
 }
 
 #pragma mark - Notifications

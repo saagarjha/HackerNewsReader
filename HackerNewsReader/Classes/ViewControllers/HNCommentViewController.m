@@ -93,7 +93,6 @@ MFMailComposeViewControllerDelegate
     [super viewDidLoad];
 
     self.title = NSLocalizedString(@"Comments", @"Title for the controller displaying a comments thread");
-    self.edgesForExtendedLayout = UIRectEdgeNone;
 
     [self hn_configureLeftButtonAsDisplay];
 
@@ -184,8 +183,7 @@ MFMailComposeViewControllerDelegate
 
 - (void)setupHeaderViewWithPage:(HNPage *)page {
     // bail if our header doesn't really have any content
-    NSString *title = page.post.title;
-    if (!title.length) {
+    if (!page.post.title.length) {
         return;
     }
 
@@ -269,7 +267,11 @@ MFMailComposeViewControllerDelegate
 
 - (CGFloat)indentedWidthForComment:(HNComment *)comment {
     UIEdgeInsets insets = [self insetsForComment:comment];
-    return CGRectGetWidth(self.view.bounds) - insets.left - insets.right;
+    if (@available(iOS 11.0, *)) {
+        return CGRectGetWidth(self.view.bounds) - insets.left - self.view.safeAreaInsets.left - fmax(insets.right, self.view.safeAreaInsets.right);
+    } else {
+        return CGRectGetWidth(self.view.bounds) - insets.left - insets.right;
+    }
 }
 
 
@@ -410,11 +412,13 @@ MFMailComposeViewControllerDelegate
         if (str) {
             strings[comment] = str;
 
-            NSUInteger indent = comment.indent;
-            UIEdgeInsets insets = [HNCommentCell contentInsetsForIndentationLevel:indent indentationWidth:kCommentCellIndentationWidth];
-            CGFloat width = CGRectGetWidth(self.view.bounds) - insets.left - insets.right;
-            // warms the store
-            (void)[self.textStorage heightForAttributedString:str width:width];
+            dispatch_async(dispatch_get_main_queue(), ^(void){
+                NSUInteger indent = comment.indent;
+                UIEdgeInsets insets = [HNCommentCell contentInsetsForIndentationLevel:indent indentationWidth:kCommentCellIndentationWidth];
+                CGFloat width = CGRectGetWidth(self.view.bounds) - insets.left - insets.right;
+                // warms the store
+                (void)[self.textStorage heightForAttributedString:str width:width];
+            });
         }
     }
     self.attributedCommentStrings = [strings copy];
@@ -469,7 +473,7 @@ MFMailComposeViewControllerDelegate
 
 - (void)pageHeaderDidTapTitle:(HNPageHeaderView *)pageHeader {
     if (![self.page.post.URL isHackerNewsURL]) {
-        SFSafariViewController *controller = [[SFSafariViewController alloc] initWithURL:self.page.post.URL];
+        SFSafariViewController *controller = viewControllerForURL(self.page.post.URL);
         [self hn_showDetailViewControllerWithFallback:controller];
     }
 }

@@ -14,9 +14,10 @@
 
 #import "HNSession.h"
 
+#import "UINavigationBar+HackerNews.h"
+#import "UISearchBar+HackerNews.h"
 #import "UIToolbar+HackerNews.h"
 #import "UITabBar+HackerNews.h"
-#import "UINavigationBar+HackerNews.h"
 #import "HNSessionManager.h"
 
 NSString * const kHNAppDelegateDidTapStatusBar = @"kHNAppDelegateDidTapStatusBar";
@@ -39,6 +40,7 @@ NSString * const kHNAppDelegateDidTapStatusBar = @"kHNAppDelegateDidTapStatusBar
     [HNQueries loadRemoteQueries];
 
     [UINavigationBar hn_enableAppearance];
+    [UISearchBar hn_enableAppearance];
     [UIToolbar hn_enableAppearance];
     [UITabBar hn_enableAppearance];
 

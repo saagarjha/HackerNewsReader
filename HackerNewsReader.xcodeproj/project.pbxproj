@@ -62,7 +62,6 @@
 		29EA87BC1DD7AAAA00B6F84A /* HNNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29EA876B1DD7AAAA00B6F84A /* HNNavigationController.m */; };
 		29EA87BD1DD7AAAA00B6F84A /* HNPostControllerHandling.m in Sources */ = {isa = PBXBuildFile; fileRef = 29EA876D1DD7AAAA00B6F84A /* HNPostControllerHandling.m */; };
 		29EA87BE1DD7AAAA00B6F84A /* HNProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29EA876F1DD7AAAA00B6F84A /* HNProfileViewController.m */; };
-		29EA87BF1DD7AAAA00B6F84A /* HNSearchPostsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29EA87711DD7AAAA00B6F84A /* HNSearchPostsController.m */; };
 		29EA87C01DD7AAAA00B6F84A /* HNSplitViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 29EA87731DD7AAAA00B6F84A /* HNSplitViewDelegate.m */; };
 		29EA87C11DD7AAAA00B6F84A /* HNSubmissionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29EA87751DD7AAAA00B6F84A /* HNSubmissionsViewController.m */; };
 		29EA87C21DD7AAAA00B6F84A /* HNTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29EA87771DD7AAAA00B6F84A /* HNTabBarController.m */; };
@@ -80,6 +79,7 @@
 		29EA87DA1DD7AACD00B6F84A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 29EA87D21DD7AACD00B6F84A /* Main.storyboard */; };
 		29EA87DE1DD7AC9200B6F84A /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 29EA87DD1DD7AC9200B6F84A /* libxml2.2.tbd */; };
 		29EA87E51DD7ACFC00B6F84A /* NSURL+HackerNewsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 29EA87E11DD7ACF300B6F84A /* NSURL+HackerNewsTests.m */; };
+		497B2388200AC71500669DDE /* UISearchBar+HackerNews.m in Sources */ = {isa = PBXBuildFile; fileRef = 497B2387200AC71500669DDE /* UISearchBar+HackerNews.m */; };
 		58FBF42904A3BAC63095A11D /* Pods_HackerNewsReader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11E97AC09D67B152186BF4B6 /* Pods_HackerNewsReader.framework */; };
 /* End PBXBuildFile section */
 
@@ -208,8 +208,6 @@
 		29EA876D1DD7AAAA00B6F84A /* HNPostControllerHandling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HNPostControllerHandling.m; sourceTree = "<group>"; };
 		29EA876E1DD7AAAA00B6F84A /* HNProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HNProfileViewController.h; sourceTree = "<group>"; };
 		29EA876F1DD7AAAA00B6F84A /* HNProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HNProfileViewController.m; sourceTree = "<group>"; };
-		29EA87701DD7AAAA00B6F84A /* HNSearchPostsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HNSearchPostsController.h; sourceTree = "<group>"; };
-		29EA87711DD7AAAA00B6F84A /* HNSearchPostsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HNSearchPostsController.m; sourceTree = "<group>"; };
 		29EA87721DD7AAAA00B6F84A /* HNSplitViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HNSplitViewDelegate.h; sourceTree = "<group>"; };
 		29EA87731DD7AAAA00B6F84A /* HNSplitViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HNSplitViewDelegate.m; sourceTree = "<group>"; };
 		29EA87741DD7AAAA00B6F84A /* HNSubmissionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HNSubmissionsViewController.h; sourceTree = "<group>"; };
@@ -240,6 +238,8 @@
 		29EA87DD1DD7AC9200B6F84A /* libxml2.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.2.tbd; path = usr/lib/libxml2.2.tbd; sourceTree = SDKROOT; };
 		29EA87E01DD7ACF300B6F84A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		29EA87E11DD7ACF300B6F84A /* NSURL+HackerNewsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+HackerNewsTests.m"; sourceTree = "<group>"; };
+		497B2386200AC71500669DDE /* UISearchBar+HackerNews.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UISearchBar+HackerNews.h"; sourceTree = "<group>"; };
+		497B2387200AC71500669DDE /* UISearchBar+HackerNews.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UISearchBar+HackerNews.m"; sourceTree = "<group>"; };
 		D231C5C33344FF1151733EC4 /* Pods-HackerNewsReader.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HackerNewsReader.release.xcconfig"; path = "Pods/Target Support Files/Pods-HackerNewsReader/Pods-HackerNewsReader.release.xcconfig"; sourceTree = "<group>"; };
 		D8AA24FB5C8D7138D6A5225A /* Pods-HackerNewsReader.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HackerNewsReader.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HackerNewsReader/Pods-HackerNewsReader.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -333,6 +333,8 @@
 				29EA870C1DD7AAAA00B6F84A /* UINavigationBar+HackerNews.m */,
 				29EA870D1DD7AAAA00B6F84A /* UINavigationController+HNBarState.h */,
 				29EA870E1DD7AAAA00B6F84A /* UINavigationController+HNBarState.m */,
+				497B2386200AC71500669DDE /* UISearchBar+HackerNews.h */,
+				497B2387200AC71500669DDE /* UISearchBar+HackerNews.m */,
 				29EA870F1DD7AAAA00B6F84A /* UITabBar+HackerNews.h */,
 				29EA87101DD7AAAA00B6F84A /* UITabBar+HackerNews.m */,
 				29EA87111DD7AAAA00B6F84A /* UIToolbar+HackerNews.h */,
@@ -472,8 +474,6 @@
 				29EA876D1DD7AAAA00B6F84A /* HNPostControllerHandling.m */,
 				29EA876E1DD7AAAA00B6F84A /* HNProfileViewController.h */,
 				29EA876F1DD7AAAA00B6F84A /* HNProfileViewController.m */,
-				29EA87701DD7AAAA00B6F84A /* HNSearchPostsController.h */,
-				29EA87711DD7AAAA00B6F84A /* HNSearchPostsController.m */,
 				29EA87721DD7AAAA00B6F84A /* HNSplitViewDelegate.h */,
 				29EA87731DD7AAAA00B6F84A /* HNSplitViewDelegate.m */,
 				29EA87741DD7AAAA00B6F84A /* HNSubmissionsViewController.h */,
@@ -596,7 +596,7 @@
 		2990B2D81AD1FC600053DB80 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Ryan Nystrom";
 				TargetAttributes = {
 					2900FA181B30F0E100690100 = {
@@ -674,13 +674,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-HackerNewsReader-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		27BA0891E290CD57634C0838 /* [CP] Embed Pods Frameworks */ = {
@@ -689,9 +692,14 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-HackerNewsReader/Pods-HackerNewsReader-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Appirater/Appirater.framework",
+				"${BUILT_PRODUCTS_DIR}/TUSafariActivity/TUSafariActivity.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Appirater.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TUSafariActivity.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -731,7 +739,6 @@
 				2990B2E61AD1FC600053DB80 /* main.m in Sources */,
 				29EA87B51DD7AAAA00B6F84A /* HNAttributedCommentComponents.m in Sources */,
 				29EA87AD1DD7AAAA00B6F84A /* NSHTTPCookie+HackerNewsNetworker.m in Sources */,
-				29EA87BF1DD7AAAA00B6F84A /* HNSearchPostsController.m in Sources */,
 				29EA87921DD7AAAA00B6F84A /* UINavigationController+HNBarState.m in Sources */,
 				29EA87AE1DD7AAAA00B6F84A /* NSHTTPCookieStorage+HackerNewsNetworker.m in Sources */,
 				29EA87B41DD7AAAA00B6F84A /* HNTableStatus.m in Sources */,
@@ -787,6 +794,7 @@
 				29EA87971DD7AAAA00B6F84A /* UIViewController+HNOverlay.m in Sources */,
 				29EA87B11DD7AAAA00B6F84A /* TFHppleElement.m in Sources */,
 				29EA87C21DD7AAAA00B6F84A /* HNTabBarController.m in Sources */,
+				497B2388200AC71500669DDE /* UISearchBar+HackerNews.m in Sources */,
 				29EA87A61DD7AAAA00B6F84A /* HNLogin.m in Sources */,
 				29EA87C81DD7AAAA00B6F84A /* HNEmptyTableCell.m in Sources */,
 				29EA87BB1DD7AAAA00B6F84A /* HNLoginViewController.m in Sources */,
@@ -851,14 +859,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -897,14 +911,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;

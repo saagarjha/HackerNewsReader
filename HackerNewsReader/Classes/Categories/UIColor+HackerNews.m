@@ -17,7 +17,7 @@ alpha:1.0]
 @implementation UIColor (HackerNews)
 
 + (UIColor *)hn_brandColor {
-    return [UIColor colorWithRed:1.0 green:0.4 blue:0.0 alpha:1.0];
+    return [UIColor colorWithRed:1.0 green:0.375 blue:0.0 alpha:1.0];
 }
 
 + (UIColor *)hn_navigationTextColor {

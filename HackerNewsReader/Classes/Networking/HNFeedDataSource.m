@@ -30,9 +30,21 @@ static NSString * const kPostCellIdentifier = @"kPostCellIdentifier";
     if (self = [super init]) {
         _tableView = tableView;
         _readPostStore = readPostStore;
+        _filter = @"";
         [_tableView registerClass:HNPostCell.class forCellReuseIdentifier:kPostCellIdentifier];
     }
     return self;
+}
+
+- (void)setPosts:(NSArray *)posts {
+    _posts = posts;
+    self.filter = self.filter;
+}
+
+- (void)setFilter:(NSString *)filter {
+    _filter = filter;
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"title CONTAINS[cd] %@", filter.lowercaseString];
+    self.filteredPosts = filter.length == 0 ? self.posts : [self.posts filteredArrayUsingPredicate:predicate];
 }
 
 - (HNPostCell *)prototypeCell {
@@ -61,12 +73,12 @@ static NSString * const kPostCellIdentifier = @"kPostCellIdentifier";
 
 - (HNPostCell *)cellForPostAtIndexPath:(NSIndexPath *)indexPath {
     HNPostCell *cell = [self.tableView dequeueReusableCellWithIdentifier:kPostCellIdentifier forIndexPath:indexPath];
-    [self configureCell:cell withPost:self.posts[indexPath.row]];
+    [self configureCell:cell withPost:self.filteredPosts[indexPath.row]];
     return cell;
 }
 
 - (CGFloat)heightForPostAtIndexPath:(NSIndexPath *)indexPath {
-    [self configureCell:self.prototypeCell withPost:self.posts[indexPath.row]];
+    [self configureCell:self.prototypeCell withPost:self.filteredPosts[indexPath.row]];
     CGSize size = [self.prototypeCell sizeThatFits:CGSizeMake(CGRectGetWidth(self.tableView.bounds), CGFLOAT_MAX)];
     return size.height;
 }

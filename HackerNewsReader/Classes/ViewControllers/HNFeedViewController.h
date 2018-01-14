@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class HNDataCoordinator, HNReadPostStore;
 
-@interface HNFeedViewController : UITableViewController <HNDataCoordinatorDelegate, UIViewControllerPreviewingDelegate>
+@interface HNFeedViewController : UITableViewController <HNDataCoordinatorDelegate, UIViewControllerPreviewingDelegate, UISearchResultsUpdating>
 
 @property (nonatomic, strong, readonly) HNDataCoordinator *dataCoordinator;
 @property (nonatomic, strong, readonly) HNReadPostStore *readPostStore;

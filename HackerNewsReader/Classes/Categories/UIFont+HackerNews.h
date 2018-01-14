@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (UIFont *)hn_subtitleFont;
 + (UIFont *)hn_pageTitleFont;
 + (UIFont *)hn_navigationFont;
++ (UIFont *)hn_largeNavigationFont __OSX_AVAILABLE_STARTING(__MAC_NA, __IPHONE_11_0);
 + (UIFont *)hn_commentFont;
 + (UIFont *)hn_commentLinkFont;
 + (UIFont *)hn_commentCodeFont;

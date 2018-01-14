@@ -26,6 +26,10 @@
     return [UIFont fontWithName:@"Avenir-Heavy" size:18.0];
 }
 
++ (UIFont *)hn_largeNavigationFont {
+    return [UIFont fontWithName:@"Avenir-Heavy" size:[UIFont preferredFontForTextStyle:UIFontTextStyleLargeTitle].pointSize];
+}
+
 + (UIFont *)hn_commentFont {
     return [UIFont systemFontOfSize:15.0];
 }

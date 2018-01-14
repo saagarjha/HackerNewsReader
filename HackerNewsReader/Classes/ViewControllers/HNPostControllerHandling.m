@@ -16,7 +16,7 @@
 #import "HNCommentViewController.h"
 #import "NSURL+HackerNews.h"
 
-UIViewController *viewControllerForPost(HNPost *post) {
+__kindof UIViewController *viewControllerForPost(HNPost *post) {
     UIViewController *controller;
     if ([post.URL isHackerNewsURL]) {
         NSUInteger postID = [[post.URL hn_valueForQueryParameter:@"id"] integerValue];
@@ -29,7 +29,7 @@ UIViewController *viewControllerForPost(HNPost *post) {
     return controller;
 }
 
-UIViewController *viewControllerForURL(NSURL *url) {
+__kindof UIViewController *viewControllerForURL(NSURL *url) {
     UIViewController *controller;
     if ([url isHackerNewsURL]) {
         NSUInteger postID = [[url hn_valueForQueryParameter:@"id"] integerValue];

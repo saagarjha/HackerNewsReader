@@ -37,7 +37,7 @@ NSString * const kHNSplitViewDelegateWillChangeDisplayMode = @"kHNSplitViewDeleg
 - (UIViewController*)splitViewController:(UISplitViewController *)splitViewController separateSecondaryViewControllerFromPrimaryViewController:(UIViewController *)primaryViewController {
     UITabBarController *masterVC = splitViewController.viewControllers.firstObject;
 
-    if ([(UINavigationController*)masterVC.selectedViewController viewControllers].count > 1) {
+    if ([(UINavigationController*)masterVC viewControllers].count > 1) {
         return [(UINavigationController*)masterVC.selectedViewController popViewControllerAnimated:NO];
     } else {
         return nil;
